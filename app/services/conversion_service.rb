@@ -15,6 +15,7 @@ class ConversionService
 
   end
 
+  private
   def create_pdf_with_frame
     Prawn::Document.new(
       page_size: "A4",
