@@ -4,11 +4,11 @@ module Api
       def create
         #ActionDispatch::Http::UploadedFile
         file = conversion_params[:svg_file]
-        unless file && file.is_a?(ActionDispatch::Http::UploadedFile)
+        unless valid_file?(file)
           render json: { error: "SVG file is required" },
                  status: :unprocessable_entity
+          return
         end
-
 
         begin
           tmp_file = ConversionService.new(file.original_filename, file.read).call
@@ -24,19 +24,26 @@ module Api
             blob,
             params: { pdf_url: pdf_url }
           ).serializable_hash
-
+        rescue => e
+          render json: { error: "Conversion failed" }, status: :internal_server_error
         ensure
           if tmp_file
             tmp_file.close
             tmp_file.unlink if File.exist?(tmp_file.path)
           end
         end
-      rescue => e
-        render json: { error: "Conversion failed" }, status: :internal_server_error
       end
 
+      private
       def conversion_params
         params.permit(:authenticity_token, :svg_file)
+      end
+
+      def valid_file?(file)
+        return false unless file && file.is_a?(ActionDispatch::Http::UploadedFile)
+        return false unless File.extname(file.original_filename).downcase == '.svg'
+        valid_types = ['image/svg+xml', 'text/xml', 'application/xml']
+        valid_types.include?(file.content_type)
       end
 
     end
