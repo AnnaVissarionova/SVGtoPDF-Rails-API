@@ -2,7 +2,8 @@ require "prawn"
 require "prawn-svg"
 
 class ConversionService
-  WATERMARK = 'Ann V'
+  WATERMARK = "ann viss"
+  
   def initialize(filename, svg_content)
     @filename = filename
     @svg_content = svg_content
@@ -30,6 +31,7 @@ class ConversionService
         draw_frame(pdf, pdf.bounds.width, content_height)
         pdf.move_down content_padding
         pdf.svg @svg_content, width: content_width
+        draw_watermark(pdf)
         pdf.move_down content_padding
       end
     end
@@ -43,8 +45,18 @@ class ConversionService
     end
   end
 
+  def draw_watermark(pdf)
+    function = lambda {
+      pdf.transparent(0.2) do
+        pdf.formatted_text_box([{text: "#{WATERMARK}", font: "Helvetica", color: "7b7b7b", size: 120}],
+                               rotate: 30, rotate_around: :center, align: :center, valign: :center)
+      end
+    }
+    function.call
+  end
+
   def save_temp_file(pdf_doc)
-    tmp = Tempfile.new([Time.now.to_s, '-', @filename,'.pdf'], binmode:true)
+    tmp = Tempfile.new([Time.now.to_s, "-", @filename,".pdf"], binmode:true)
     tmp.write(pdf_doc.render)
     tmp.rewind
     tmp
