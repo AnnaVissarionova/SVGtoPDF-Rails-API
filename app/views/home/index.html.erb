@@ -1,0 +1,38 @@
+<h1>SVG to PDF</h1>
+<form id="upload" action="/api/v1/conversions" method="post" enctype="multipart/form-data">
+  <label for="svg_file">SVG file</label><br/>
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="file" name="svg_file" id="svg_file" accept=".svg,image/svg+xml" required><br/><br/>
+  <input type="submit" value="Convert to PDF">
+</form>
+
+<div id="result"></div>
+
+<script>
+    document.getElementById('upload').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = new FormData(form);
+        //const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+        const resp = await fetch(form.action, {
+            method: 'POST',
+            body: data
+        });
+        const result = document.getElementById('result');
+        if (!resp.ok) {
+            const err = await resp.json();
+            result.innerText = 'Error: ' + JSON.stringify(err);
+            return;
+        }
+        const json = await resp.json();
+        const url = json.data?.attributes?.download_url;
+        const size = json.data?.attributes?.byte_size / 1024;
+        if (url) {
+            result.innerHTML = `<p><a href="${url}" target="_blank">Download PDF</a> ${size.toFixed(2)} kb </p>`;
+        } else {
+            result.innerText = 'Link for download is not created';
+        }
+    });
+</script>
+
+
