@@ -43,6 +43,9 @@ gem 'prawn'
 gem 'prawn-svg'
 gem 'jsonapi-serializer', '~> 2.2'
 gem 'image_processing', '~> 1.2'
+gem 'tailwindcss-ruby'
+gem 'tailwindcss-rails'
+
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
