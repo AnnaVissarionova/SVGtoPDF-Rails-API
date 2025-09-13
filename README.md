@@ -1,24 +1,56 @@
-# README
+# SVG to PDF Converter
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A web application that converts SVG files to PDF documents with automatic framing and watermarking features.
 
-Things you may want to cover:
+## Technology Stack
 
-* Ruby version
+- **Backend**: Ruby on Rails, Prawn, Prawn-SVG
+- **Frontend**: Tailwind CSS, Vanilla JavaScript
+- **File Processing**: Active Storage, Tempfile
+- **PDF Generation**: Prawn PDF library
 
-* System dependencies
+## Installation
 
-* Configuration
+### Setup Instructions
 
-* Database creation
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd svg-to-pdf-converter
+   ```
 
-* Database initialization
+2. **Install dependencies**:
+   ```bash
+   bundle install
+   ```
+3. **Start the server**:
+   ```bash
+   rails server
+   ```
+4. **Open your browser**:
+  http://localhost:3000
 
-* How to run the test suite
+## API
 
-* Services (job queues, cache servers, search engines, etc.)
+  ### Request
+  ```http
+  POST /api/v1/conversions
+  Content-Type: multipart/form-data
+  
+  {
+    "svg_file": [file],
+    "authenticity_token": [token]
+  }
+```
 
-* Deployment instructions
-
-* ...
+### Response
+```json
+{
+  "data": {
+    "attributes": {
+      "download_url": "/downloads/file.pdf",
+      "byte_size": 10240
+    }
+  }
+}
+```
