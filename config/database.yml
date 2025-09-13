@@ -31,3 +31,45 @@ production:
 queue:
   adapter: postgresql
   url: <%= ENV['DATABASE_URL'] %>
+
+cache:
+  adapter: postgresql
+  url: <%= ENV['DATABASE_URL'] %>
+
+cable:
+  adapter: postgresql
+  url: <%= ENV['DATABASE_URL'] %>
+
+replica:
+  adapter: postgresql
+  url: <%= ENV['DATABASE_URL'] %>
+
+reading:
+  adapter: postgresql
+  url: <%= ENV['DATABASE_URL'] %>
+
+analytics:
+  adapter: postgresql
+  url: <%= ENV['DATABASE_URL'] %>
+
+events:
+  adapter: postgresql
+  url: <%= ENV['DATABASE_URL'] %>
+
+primary:
+  adapter: postgresql
+  url: <%= ENV['DATABASE_URL'] %>
+
+secondary:
+  adapter: postgresql
+  url: <%= ENV['DATABASE_URL'] %>
+
+# Для многопользовательских приложений
+tenant:
+  adapter: postgresql
+  url: <%= ENV['DATABASE_URL'] %>
+
+# Для каких-либо специальных нужд
+special:
+  adapter: postgresql
+  url: <%= ENV['DATABASE_URL'] %>
