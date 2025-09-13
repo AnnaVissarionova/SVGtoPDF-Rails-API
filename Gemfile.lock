@@ -193,6 +193,8 @@ GEM
       ast (~> 2.4.1)
       racc
     pdf-core (0.10.0)
+    pg (1.6.2-x64-mingw-ucrt)
+    pg (1.6.2-x86_64-linux)
     pp (0.6.2)
       prettyprint
     prawn (2.5.0)
@@ -400,6 +402,7 @@ DEPENDENCIES
   jbuilder
   jsonapi-serializer (~> 2.2)
   kamal
+  pg
   prawn
   prawn-svg
   propshaft
